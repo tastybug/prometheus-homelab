@@ -2,22 +2,57 @@ version: '3'
 services:
   prometheus:
     # 2.53 is LTS
-    image: prom/prometheus:v2.53.1
+    image: 'prom/prometheus:v2.53.1'
     restart: 'unless-stopped'
     deploy:
       resources:
         limits:
           cpus: '0.5'
-          memory: 300M
+          memory: '300M'
         reservations:
           cpus: '0.2'
-          memory: 100M
+          memory: '100M'
     volumes:
-      - './prometheus.yml:/etc/prometheus/prometheus.yml'
+      - './prometheus.yml:/etc/prometheus/prometheus.yml' # main config
+      - './rules.yml:/etc/prometheus/rules.yml' # this feeds into alertmanager
     networks:
-      - localprom
+      - 'localprom'
     ports:
-      - 9090:9090
+      - '9090:9090'
+  node-exporter:
+    # no LTS available
+    image: 'prom/node-exporter:v1.8.1'
+    restart: 'unless-stopped'
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: '200M'
+        reservations:
+          cpus: '0.1'
+          memory: '100M'
+    networks:
+      - 'localprom'
+    ports:
+      - '9100:9100'
+  alert-manager:
+    # no LTS available
+    image: 'prom/alertmanager:v0.27.0'
+    restart: 'unless-stopped'
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: '200M'
+        reservations:
+          cpus: '0.1'
+          memory: '100M'
+    volumes:
+      - './alertmanager.yml:/alertmanager/alertmanager.yml'
+    networks:
+      - 'localprom'
+    ports:
+      - '9093:9093'
 networks:
   localprom:
     driver: bridge
