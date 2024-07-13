@@ -4,5 +4,5 @@ Sourced from [this fine article](https://mxulises.medium.com/simple-prometheus-s
 
 ## Start and Stop
 
-* `docker compose up -d`, verify with curl localhost:9090
+* `docker compose up -d --force-recreate`, verify with curl localhost:9090
 * `docker compose down`
