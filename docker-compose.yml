@@ -1,0 +1,15 @@
+version: '3'
+services:
+  prometheus:
+    # 2.53 is LTS
+    image: prom/prometheus:v2.53.1
+    restart: 'unless-stopped'
+    volumes:
+      - './prometheus.yml:/etc/prometheus/prometheus.yml'
+    networks:
+      - localprom
+    ports:
+      - 9090:9090
+networks:
+  localprom:
+    driver: bridge
