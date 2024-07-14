@@ -19,9 +19,8 @@ services:
       - 'localprom'
     ports:
       - '9090:9090'
-  node-exporter:
-    # no LTS available
-    image: 'prom/node-exporter:v1.8.1'
+  blog-node-exporter:
+    image: 'nginx/nginx-prometheus-exporter:1.1.0'
     restart: 'unless-stopped'
     deploy:
       resources:
@@ -34,7 +33,9 @@ services:
     networks:
       - 'localprom'
     ports:
-      - '9100:9100'
+      - '9113:9113'
+    command:
+      - '--nginx.scrape-uri=https://blog.tastybug.com/metrics'
   alert-manager:
     # no LTS available
     image: 'prom/alertmanager:v0.27.0'
