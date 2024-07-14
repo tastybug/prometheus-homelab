@@ -4,7 +4,7 @@
 
 # Prometheus Homelab Stack
 
-Sourced from [this fine article](https://mxulises.medium.com/simple-prometheus-setup-on-docker-compose-f702d5f98579).
+![Topology](./docs/topology-overview.jpg)
 
 ## Start and Stop
 
