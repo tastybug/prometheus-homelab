@@ -7,10 +7,10 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.5'
+          cpus: 0.5
           memory: '300M'
         reservations:
-          cpus: '0.2'
+          cpus: 0.2
           memory: '100M'
     volumes:
       - './prometheus.yml:/etc/prometheus/prometheus.yml' # main config
@@ -25,10 +25,10 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.2'
+          cpus: 0.2
           memory: '200M'
         reservations:
-          cpus: '0.1'
+          cpus: 0.1
           memory: '100M'
     networks:
       - 'localprom'
@@ -43,10 +43,10 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.2'
+          cpus: 0.2
           memory: '200M'
         reservations:
-          cpus: '0.1'
+          cpus: 0.1
           memory: '100M'
     volumes:
       - './alertmanager.yml:/alertmanager/alertmanager.yml'
@@ -54,6 +54,23 @@ services:
       - 'localprom'
     ports:
       - '9093:9093'
+  grafana:
+    image: 'grafana/grafana:latest'
+    restart: 'unless-stopped'
+    deploy:
+      resources:
+        limits:
+          cpus: 0.5
+          memory: '300M'
+        reservations:
+          cpus: 0.3
+          memory: '200M'
+    volumes:
+      - './grafana-storage:/var/lib/grafana'
+    networks:
+      - 'localprom'
+    ports:
+      - '3000:3000'
 networks:
   localprom:
     driver: bridge
