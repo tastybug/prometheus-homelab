@@ -71,6 +71,25 @@ services:
       - 'localprom'
     ports:
       - '3000:3000'
+  blackbox:
+    image: 'prom/blackbox-exporter:latest'
+    restart: 'unless-stopped'
+    deploy:
+      resources:
+        limits: 
+          cpus: 0.2
+          memory: '200M'
+        reservations:
+          cpus: 0.1
+          memory: '100M'
+    volumes:
+      - './blackbox-config.yaml:/config/config.yaml'
+    networks:
+      - 'localprom'
+    ports:
+      - '9115:9115'
+    command:
+      - '--config.file=/config/config.yaml'
 networks:
   localprom:
     driver: bridge
