@@ -20,6 +20,7 @@ scrape_configs:
     static_configs:
       - targets:
         - grafana:3000
+# peek at curl 'http://localhost:9115/probe?target=blog.tastybug.com&module=http_2xx' | less
   - job_name: 'blackbox'
     metrics_path: '/probe'
     params:
